@@ -7,24 +7,20 @@ public class tictac{
     static char currentPlayer= 'X';
     static int movementCounter=0;//to check how many moves are made
     public static void main(String[] args){
+        System.out.println("\033[H\033[2J");
         initializeBoard();
         while(true){//If there are cells that not empty user should make a move
             printBoard();
             System.out.println(currentPlayer+"'s turn. Where do you want the character?");//coordinates for the movement
             //movement should be in a function
-            int newCoordinatx= input.nextInt();
-            int newCoordinaty= input.nextInt();
-            if(newCoordinatx<0 ||newCoordinatx>2 ||newCoordinaty<0 ||newCoordinaty>2){
-                System.out.println("\033[H\033[2J");//clear console command
-                System.out.println("This move can not be done. Coordinates should be in range 0-2");
-            }
-            else if(!isempty(newCoordinatx,newCoordinaty)){
+            int nextMove= input.nextInt();
+            if(!isempty(nextMove)){
                 System.out.println("\033[H\033[2J");//clear console command
                 System.out.println("This move can not be done. Choose an empty cell to move");
             }
             else{
             System.out.println("\033[H\033[2J");//clear console command
-            board[newCoordinatx][newCoordinaty]=currentPlayer;//if this cell is empty the move can be done
+            makeMove(nextMove);//if the cell is empty the move can be done
             movementCounter++;
                 if(winner()){
                     System.out.println("\033[H\033[2J");//clear console command
@@ -46,20 +42,39 @@ public class tictac{
     public static void printBoard(){
         for(int i=0;i<rows;i++){
             for(int j=0;j<cols;j++){
-                System.out.print(board[i][j]+" ");
+                if (j==0 || j==1){
+                System.out.print(board[i][j]+" | ");    
+                }
+                else if(j==2){
+                    System.out.print(board[i][j]);
+                }
             }
             System.out.println();//new line
+            if(i!=2){
+            System.out.println("- + - + -");
+            }
+            else{
+                System.out.println();
+            }
         }
     }
     public static void initializeBoard(){
+        char num='1';
         for(int i=0;i<rows;i++){
             for (int j=0;j<cols;j++){
-                board[i][j]= '_';
+                board[i][j]= num;
+                num++;
             }
         }
     }
-    static boolean isempty(int a,int b){
-        if (board[a][b]=='_'){
+    static boolean isempty(int nextmove){
+        /*1 00 2 01 3 02
+          4 10 5 11 6 12
+          7 20 8 21 8 22
+        */
+        int rows=(nextmove-1)/3;
+        int cols=(nextmove-1)%3;
+        if (board[rows][cols]!='X'&&board[rows][cols]!='O'){
             return true;
         }
         else{
@@ -69,12 +84,46 @@ public class tictac{
     static boolean noMoveLeft(){
         for (int i=0;i<rows;i++){
             for(int j=0;j<cols;j++){
-                if(board[i][j]=='_'){
+                if(board[i][j]!='X'&&board[i][j]!='O'){
                     return false;
                 }
             }
         }
         return true;
+    }
+    static void makeMove(int nextMove){
+        int move=nextMove;
+        switch(move){
+            case 1:
+            board[0][0]=currentPlayer;
+            break;
+            case 2:
+            board[0][1]=currentPlayer;
+            break;
+            case 3:
+            board[0][2]=currentPlayer;
+            break;
+            case 4:
+            board[1][0]=currentPlayer;
+            break;
+            case 5:
+            board[1][1]=currentPlayer;
+            break;
+            case 6:
+            board[1][2]=currentPlayer;
+            break;
+            case 7:
+            board[2][0]=currentPlayer;
+            break;
+            case 8:
+            board[2][1]=currentPlayer;
+            break;
+            case 9:
+            board[2][2]=currentPlayer;
+            break;
+            default:
+            System.out.println("This move can not be done. Coordinates should be in range 1-9");
+        }
     }
     static boolean winner(){
         for(int i=0;i<3;i++){
