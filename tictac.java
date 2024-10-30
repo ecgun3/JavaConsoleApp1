@@ -11,9 +11,15 @@ public class tictac{
         initializeBoard();
         while(true){//If there are cells that not empty user should make a move
             printBoard();
-            System.out.println(currentPlayer+"'s turn. Where do you want the character?");//coordinates for the movement
+            System.out.println(currentPlayer+"'s turn. Where do you want to put character?");//coordinates for the movement
+
             //movement should be in a function
-            int nextMove= input.nextInt();
+            String move;
+            do{
+            move = input.nextLine();
+            }while(!validMove(move));
+            int nextMove = Integer.parseInt(move);
+
             if(!isempty(nextMove)){
                 System.out.println("\033[H\033[2J");//clear console command
                 System.out.println("This move can not be done. Choose an empty cell to move");
@@ -39,6 +45,22 @@ public class tictac{
             }
         }
     }
+
+    static boolean validMove(String str){
+		try {
+			int test = Integer.parseInt(str);
+			if(test <= 0 || test > 9){
+                System.out.println("Please enter a value between 1 and 9!");
+				return false;
+            }
+			return true;
+		}
+		catch(NumberFormatException e){	
+			System.out.println("Please enter a value between 1 and 9!");
+			return false;
+		}
+	}
+
     public static void printBoard(){
         for(int i=0;i<rows;i++){
             for(int j=0;j<cols;j++){
