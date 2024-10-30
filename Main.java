@@ -193,10 +193,34 @@ public class Main{
 			return false;
 		}
 	}
+
+	static void ArraySort(double [] Array) {
+		boolean swap;
+		int i, j;
+		double temp;
+
+		for (i=0; i<Array.length-1; i++){
+			swap = false;
+			for(j=0; j<Array.length-i-1; j++){
+				if(Array[j] > Array[j+1]){
+
+					temp = Array[j];
+					Array[j] = Array[j+1];						
+					Array[j+1] = temp;
+						
+					swap = true;
+				}
+			}
+
+			if(swap == false)
+				break;
+		}
+	}
 	
+
 	static double Median(double[] Array) {
 	    double median;
-	    Arrays.sort(Array);//!!!!!!!!!
+	    ArraySort(Array);
 	    if(Array.length % 2 != 0)
 	    	median = Array[Array.length/2];
 	    else
@@ -257,7 +281,7 @@ public class Main{
 
 		if(userInput.equals("A")||userInput.equals("a")){
 			clearConsole();
-			int mat[][] = transpose(matrixCreate(1));
+			double mat[][] = transpose(matrixCreate(3));
 			System.out.printf("%nYour Transposed Matrix: %n");
 			printMatrix(mat);
 			System.out.printf("\n(If you want to back Matrix Operations Menu, press Y): ");
@@ -291,8 +315,8 @@ public class Main{
 			System.out.println("Choice is invalid. Please make a valid choice!\n");
 		}
 	}
+    public static double[][] matrixCreate(int x){      //Matrix Creation
 
-    public static int[][] matrixCreate(int x){      //Matrix Creation
 
 		Scanner input = new Scanner(System.in);
 		String matrixInp;
@@ -303,6 +327,31 @@ public class Main{
 
 			case(1):
 				do{
+				System.out.printf("Enter row size of the %d. Matrix: ", x);
+				row = input.nextLine();
+				}while(!arraySizeCheck(row));
+
+				do{
+				System.out.printf("Enter column size of the %d. Matrix: ", x);
+				col = input.nextLine();
+				}while(!arraySizeCheck(col));
+				break;
+
+			case(2):
+				do{
+				System.out.printf("Enter row size of the %d. Matrix: ", x);
+				row = input.nextLine();
+				}while(!arraySizeCheck(row));
+
+
+				do{
+				System.out.printf("Enter column size of the %d. Matrix: ", x);
+				col = input.nextLine();
+				}while(!arraySizeCheck(col));
+				break;
+
+				case(3):
+				do{
 				System.out.print("Enter row size of the Matrix: ");
 				row = input.nextLine();
 				}while(!arraySizeCheck(row));
@@ -312,7 +361,7 @@ public class Main{
 				col = input.nextLine();
 				}while(!arraySizeCheck(col));
 				break;
-			
+
 			default:
 				do
 				{
@@ -326,8 +375,8 @@ public class Main{
 
 		int rowsize = Integer.parseInt(row);
 		int colsize = Integer.parseInt(col);
+		double Matrix[][] = new double[rowsize][colsize];
 
-		int Matrix[][] = new int[rowsize][colsize];
 
 		for(int i=0; i<rowsize; i++)
 			{
@@ -337,8 +386,8 @@ public class Main{
 						System.out.printf("Enter the Matrix[%d][%d]: ", i,j);
 						matrixInp = input.nextLine();
 						}
-					while(!arrayMatrixCheck(matrixInp));
-					Matrix[i][j] = Integer.parseInt(matrixInp);
+					while(!arrayElementCheck(matrixInp));
+					Matrix[i][j] = Double.parseDouble(matrixInp);
 				}
 			}
 		System.out.printf("%nYour Matrix: %n");
@@ -365,7 +414,7 @@ public class Main{
 		{
 			for(int j=0; j<mat[0].length;j++)
 			{
-				System.out.printf("%f ", mat[i][j]);
+				System.out.printf("%,2f ", mat[i][j]);
 			}
 			System.out.printf("%n");
 		}
@@ -383,9 +432,9 @@ public class Main{
 		}
 	}
 
-	public static int[][] transpose(int matrix[][]){
+	public static double[][] transpose(double matrix[][]){
 
-        int[][] newmat = new int[matrix[0].length][matrix.length];
+        double[][] newmat = new double[matrix[0].length][matrix.length];
 		for(int i = 0; i<matrix[0].length ; i++){
 			for(int j = 0; j<matrix.length ; j++){
 				newmat[i][j]=matrix[j][i];
@@ -395,8 +444,7 @@ public class Main{
 	}
 
     public static void Inverse(){
-	
-		int[][] mat	= matrixCreate(2);
+		double[][] mat	= matrixCreate(2);
 		// System.out.printf("determinant:%d%n%n%n",det(mat));
 		double det=(double)det(mat);
 		if(det==0){
@@ -419,10 +467,10 @@ public class Main{
 			printMatrix(mat2);
 		}
 	}
+    public static double[][] submatrix(double[][] matrix,int m, int n){
 
-    public static int[][] submatrix(int[][] matrix,int m, int n){
+		double[][] submat = new double[matrix.length-1][matrix.length-1];
 
-		int[][] submat = new int[matrix.length-1][matrix.length-1];
 		int subrow=0, subcol=0;
 
 		for(int i=0; i<matrix.length ; i++){
@@ -440,7 +488,7 @@ public class Main{
 		return submat;
 	}
 	
-	public static int det(int[][] matrix){
+	public static double det(double[][] matrix){
 	
 		if(matrix.length==2){
 		return((matrix[0][0]*matrix[1][1])-(matrix[0][1]*matrix[1][0]));
@@ -457,18 +505,18 @@ public class Main{
 		}
 	}
 
-	public static int[][] adjointMatrix(int[][] matrix){
+	public static double[][] adjointMatrix(double[][] matrix){
 
-		int[][] adjmat = new int[matrix.length][matrix.length];
+		double[][] adjmat = new double[matrix.length][matrix.length];
 
 		if(matrix.length>2){
 			for(int i=0; i<matrix.length ; i++){
 				for(int j=0; j<matrix.length; j++){
-					int a=det(submatrix(matrix,i,j));
+					double a=det(submatrix(matrix,i,j));
 					if(a==0)
 						adjmat[i][j]=0;
 					else
-						adjmat[i][j] = a*((int)Math.pow(-1,i+j));
+						adjmat[i][j] = a*((double)Math.pow(-1,i+j));
 				}
 			}
 		}
@@ -484,19 +532,18 @@ public class Main{
 
 	public static void MatrixMultiplication()
 	{
-		int mat1[][];
-		int mat2[][];
+		double mat1[][];
+		double mat2[][];
 
 		do{
-			System.out.println("\n...\n Number of columns in the first Matrix must be same as the Number of rows in the second Matrix");
-			System.out.println("\n PLEASE ENTER THE FIRST MATRIX INFO... \n");
 			mat1 = matrixCreate(1);
-			System.out.println("\n PLEASE ENTER THE SECOND MATRIX INFO... \n");
-			mat2 = matrixCreate(1);
+			mat2 = matrixCreate(2);
+			if (mat1 != null && mat2 != null && mat1[0].length != mat2.length)
+				System.out.println("ERROR: The number of columns in the first matrix does not match the number of rows in the second matrix. Please try again.");
 		}
 		while(mat1[0].length != mat2.length);
 
-		int resultmat[][] = new int[mat1.length][mat2[0].length];
+		double resultmat[][] = new double[mat1.length][mat2[0].length];
 
 		for(int i=0; i<mat1.length; i++)
 			for(int j=0; j<mat2[0].length; j++)
@@ -511,18 +558,17 @@ public class Main{
 
 	public static void elementwiseMatrixMultiplication()
 	{
-		int mat1[][];
-		int mat2[][];
+		double mat1[][];
+		double mat2[][];
 		do{
-			System.out.println("\n...\n In the element wise multiplication, two matricies must be the same length as rows and cols");
-			System.out.println("\n PLEASE ENTER THE FIRST MATRIX INFO... \n");
 			mat1 = matrixCreate(1);
-			System.out.println("\n PLEASE ENTER THE SECOND MATRIX INFO... \n");
-			mat2 = matrixCreate(1);
+			mat2 = matrixCreate(2);
+			if((mat1.length != mat2.length) || (mat1[0].length != mat2[0].length))
+				System.out.println("ERROR: In the element wise multiplication, two matricies must be the same length as rows and cols");
 		}
 		while((mat1.length != mat2.length) || (mat1[0].length != mat2[0].length));
 
-		int resultmat[][] = new int[mat1.length][mat1[0].length];
+		double resultmat[][] = new double[mat1.length][mat1[0].length];
 
 		for(int i=0; i<mat1.length; i++)
 			for(int j=0; j<mat1[0].length; j++)
