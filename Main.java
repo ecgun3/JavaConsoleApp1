@@ -256,6 +256,8 @@ public class Main{
         	}
         	
 		
+
+		
 		if(product < 0) 
           	throw new IllegalArgumentException(); 
         
