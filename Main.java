@@ -116,16 +116,6 @@ public class Main{
 	}
 
 ////////////// ARRAY OPERATIONS /////////////////
-
-/* Auxiliary functions
-	* arraySizeCheck --> controls the input of the array size (positive integer or not)
-	* arrayElementCheck --> controls the elements of the array if they are a numeric value or not
-	* ArraySort --> Does a bubble sort (small to bigger)
-	* Median --> Returns the median value of a sorted array
-	* ArithmeticMean 
-	* GeometricMean
-	* HarmonicMean
- */
     	
 	public static void ArrayOperations() {
 
@@ -182,12 +172,6 @@ public class Main{
 
      static boolean arraySizeCheck(String str) { 		// check if the size is a positive integer value
 		try {
-			
-			/*
-			 * The "try" block checks whether the user has entered a number character 
-			 * The if block checks whether the user has entered a number but their ranges are different. 
-			 * If no number is entered, it is sent to the catch block.
-			 */
 
 			int test = Integer.parseInt(str); 
 				
@@ -271,25 +255,25 @@ public class Main{
 			product *= Array[i];
         	}
         	
-		//Geometric mean is undefined for negative numbers
+		
 		if(product < 0) 
-          	throw new IllegalArgumentException(); // throw an exception if the product is negative
+          	throw new IllegalArgumentException(); 
         
-		return Math.pow(product, (double)1/Array.length); // --> (product) ^ 1/size
+		return Math.pow(product, (double)1/Array.length); 
 	}
 	
 	static double HarmonicMean(double[] Array) {
 		double sum = 0;
 
-    		for (double value : Array) // reach every character in the array
+    		for (double value : Array) 
 		{
-        		if (value == 0) // The denominator cannot be zero, it will be undefined
+        		if (value == 0) 
             		throw new IllegalArgumentException("Array contains zero, harmonic mean is undefined.");
         		
 			sum += 1 / value;
     		}
 
-    		return Array.length / sum; // --> n / (1 / x1 + 1 / x2 .... + 1 / xn)
+    		return Array.length / sum; 
 	}
 
 ////////////// MATRIX OPERATIONS /////////////////
