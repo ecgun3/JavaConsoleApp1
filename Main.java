@@ -44,8 +44,9 @@ public class Main{
     public static void menu(){	    //Main Menu
 		Scanner input = new Scanner(System.in);
 		String userInput;
+		
 		do{
-			System.out.printf("""
+			System.out.println("""
 			[A] Statistical Information About An Array, 
 			[B] Matrix Operations, 
 			[C] Text Encryption/Decryption, 
@@ -56,8 +57,9 @@ public class Main{
 
 			userInput = input.nextLine();
 			decision(userInput);
-			}while(!(userInput.equals("E")||userInput.equals("e")));
-			// input.close();
+
+		} while( !(userInput.equals("E") || userInput.equals("e")) );
+
 	}
 
     public static void decision(String userInput){      //Decision Part
@@ -89,9 +91,9 @@ public class Main{
 		}
 	}
 
-	static void back(int n){
+	static void back(int n){ 	//Back to main
 		Scanner ink = new Scanner(System.in);
-		String last=ink.nextLine();
+		String last = ink.nextLine();
 
         if((n==3)&&(last.equals("r")||last.equals("R")))
             tictac();
@@ -106,84 +108,103 @@ public class Main{
 			System.out.printf("(If you want to back Matrix Operations Menu, press Y): ");
 			back(1);
 		}
-        //else if(n==2){
-		//	System.out.printf("(If you want to back Encryption-Decryption Menu, press Y): ");
-		//	back(2);
-		//}
-        else{
+        	else{
             System.out.println("(If you want to start game again, press R)");
             System.out.printf("(If you want to back Main Menu, press Y): ");
 			back(3);
         }
-		// ink.close();
 	}
 
 ////////////// ARRAY OPERATIONS /////////////////
-    public static void ArrayOperations() {
 
-        Scanner scan = new Scanner(System.in);
+/* Auxiliary functions
+	* arraySizeCheck --> controls the input of the array size (positive integer or not)
+	* arrayElementCheck --> controls the elements of the array if they are a numeric value or not
+	* ArraySort --> Does a bubble sort (small to bigger)
+	* Median --> Returns the median value of a sorted array
+	* ArithmeticMean 
+	* GeometricMean
+	* HarmonicMean
+ */
+    	
+	public static void ArrayOperations() {
+
+     	Scanner scan = new Scanner(System.in);
         
-        String line;
-        int ArrayLength;
-        int n=0;
+        	String line;
+        	int ArrayLength;
         
-        //Taking Array size from user as string, then converting it to int.
-        do
-            {
+        	//Taking Array size from user as string, then converting it to int.
+        	do
+     	{
+
             System.out.print("Enter the size of array: ");
             line = scan.nextLine();
-            }
-        while(!arraySizeCheck(line));
+
+          } while(!arraySizeCheck(line));
         
-        ArrayLength = Integer.parseInt(line);
-        double Array[] = new double[ArrayLength];
+        	ArrayLength = Integer.parseInt(line); //Array size should be integer
+        	double Array[] = new double[ArrayLength];
         
-        //Taking Array elements from user as string, then converting them to double 
-        for(int i=0; i< ArrayLength; i++)
-            {
-                do {
+        	//Taking Array elements from user as string, then converting them to double 
+        	for(int i = 0; i < ArrayLength; i++)
+          {
+               do{
+
                     System.out.printf("Enter the Array[%d]: ", i);
                     line = scan.nextLine();
-                    }
-                while(!arrayElementCheck(line));
-                Array[i] = Double.parseDouble(line);
-            }
+
+               } while(!arrayElementCheck(line));
+               
+			Array[i] = Double.parseDouble(line);
+          }
         
-        //print the array as string
-        clearConsole();
-        System.out.println(" The Array : " + Arrays.toString(Array));
-        System.out.printf(" %-20s : %,.4f%n ", "The Median: ", Median(Array));
-        System.out.printf("%-20s : %,.4f%n ", "The Arithmetic Mean: ", ArithmeticMean(Array));
-        try{
-            double GM = GeometricMean(Array);
-            System.out.printf("%-20s : %,.4f%n ", "The Geometric Mean: ",GM);
-        }
-        catch(IllegalArgumentException e){
-            System.out.println("The Geometric Mean: Calculation Is Not Possible");
+		//print the array as string
+		clearConsole();
 
-        }
-        System.out.printf("%-20s : %,.4f%n ", "The Harmonic Mean", Array.length/HarmonicMean(n,Array));
-        System.out.printf("\n(If you want to back Main Menu, press Y): ");
-        back(0);
-		// scan.close();
-      }
-
-      static boolean arraySizeCheck(String str) {
+		System.out.println(" The Array : " + Arrays.toString(Array));
+		System.out.printf(" %-20s : %,.4f%n ", "The Median: ", Median(Array));
+		System.out.printf("%-20s : %,.4f%n ", "The Arithmetic Mean: ", ArithmeticMean(Array));
+		
 		try {
-			int test = Integer.parseInt(str);
-			if(test <= 0 || test >= Integer.MAX_VALUE){
-                System.out.println("Please enter a positive Integer value!");
-				return false;
-            }
-			return true;
+
+			double GM = GeometricMean(Array);
+			System.out.printf("%-20s : %,.4f%n ", "The Geometric Mean: ",GM);
+		
+		} catch(IllegalArgumentException e){
+			System.out.println("The Geometric Mean: Calculation Is Not Possible");
 		}
-		catch(NumberFormatException e){	
+		
+		System.out.printf("%-20s : %,.4f%n ", "The Harmonic Mean", Array.length/HarmonicMean(Array));
+		System.out.printf("\n(If you want to back Main Menu, press Y): ");
+		back(0);
+     }
+
+     static boolean arraySizeCheck(String str) { 		// check if the size is a positive integer value
+		try {
+			
+			/*
+			 * The "try" block checks whether the user has entered a number character 
+			 * The if block checks whether the user has entered a number but their ranges are different. 
+			 * If no number is entered, it is sent to the catch block.
+			 */
+
+			int test = Integer.parseInt(str); 
+				
+			if(test <= 0 || test >= Integer.MAX_VALUE){
+				System.out.println("Please enter a positive Integer value!");
+				return false;
+			}
+				
+			return true;
+
+		} catch(NumberFormatException e){	
 			System.out.println("Please enter a positive Integer value!");
 			return false;
 		}
 	}
 	
-	static boolean arrayElementCheck(String str) {
+	static boolean arrayElementCheck(String str) { 	//check if the element is a number
 		try {
 			Double.parseDouble(str);
 			return true;
@@ -194,14 +215,14 @@ public class Main{
 		}
 	}
 
-	static void ArraySort(double [] Array) {
-		boolean swap;
+	static void ArraySort(double [] Array) {	// Bubble sort
+		boolean swap; // To check if there is any change or not
 		int i, j;
 		double temp;
 
-		for (i=0; i<Array.length-1; i++){
+		for (i = 0; i < Array.length - 1; i++){
 			swap = false;
-			for(j=0; j<Array.length-i-1; j++){
+			for(j = 0; j < Array.length - i - 1; j++){
 				if(Array[j] > Array[j+1]){
 
 					temp = Array[j];
@@ -217,46 +238,58 @@ public class Main{
 		}
 	}
 	
-
 	static double Median(double[] Array) {
 	    double median;
-	    ArraySort(Array);
-	    if(Array.length % 2 != 0)
-	    	median = Array[Array.length/2];
-	    else
-	    	median = (Array[Array.length/2] + Array[Array.length/2 - 1]) / 2;
+	    
+	    ArraySort(Array); 
+	    
+	    if(Array.length % 2 != 0) // if array size is odd
+	    {
+		median = Array[Array.length/2];
+	    }						   
+	    else //if array size is even 
+	    {
+	    	median = (Array[Array.length / 2] + Array[Array.length / 2 - 1]) / 2;
+	    }
 	    
 	    return median;
 	}
 	
 	static double ArithmeticMean(double[] Array) {
 		double total = 0;
-		for(int i=0; i<Array.length; i++)
-			total+= Array[i];
 		
-		return total/Array.length;	
+		for(int i = 0; i < Array.length; i++)
+			total += Array[i];
+		
+		return total / Array.length;	
 	}
 	
-	static double GeometricMean(double[] Array) {
-		double product = 1;
-        int negatives = 0;
-		for(int i=0; i<Array.length; i++){
+	static double GeometricMean(double[] Array) { 
+		double product = 1; // product of the array elements
+		
+		for(int i = 0; i < Array.length; i++){
 			product *= Array[i];
-            if(Array[i]<0)
-                negatives++;
-        }
-        if(negatives % 2 == 1)
-            throw new IllegalArgumentException();
-        return Math.pow(product,(double)1/Array.length);
+        	}
+        	
+		//Geometric mean is undefined for negative numbers
+		if(product < 0) 
+          	throw new IllegalArgumentException(); // throw an exception if the product is negative
+        
+		return Math.pow(product, (double)1/Array.length); // --> (product) ^ 1/size
 	}
 	
-	static double HarmonicMean(int n, double[] Array) {
-		if((n+1)==Array.length){
-			return (1/Array[n]);
-		}
-		else{
-			return ((1/Array[n++])+HarmonicMean(n,Array));
-		}
+	static double HarmonicMean(double[] Array) {
+		double sum = 0;
+
+    		for (double value : Array) // reach every character in the array
+		{
+        		if (value == 0) // The denominator cannot be zero, it will be undefined
+            		throw new IllegalArgumentException("Array contains zero, harmonic mean is undefined.");
+        		
+			sum += 1 / value;
+    		}
+
+    		return Array.length / sum; // --> n / (1 / x1 + 1 / x2 .... + 1 / xn)
 	}
 
 ////////////// MATRIX OPERATIONS /////////////////
