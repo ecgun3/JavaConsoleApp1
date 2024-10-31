@@ -165,8 +165,16 @@ public class Main{
 		} catch(IllegalArgumentException e){
 			System.out.println("The Geometric Mean: Calculation Is Not Possible");
 		}
+
+		try {
+			
+			double harmonicMean = HarmonicMean(n, Array);
+			System.out.printf("%-20s : %,.4f%n ", "The Harmonic Mean", Array.length / harmonicMean);
 		
-		System.out.printf("%-20s : %,.4f%n ", "The Harmonic Mean", Array.length/HarmonicMean(n,Array));
+		} catch (IllegalArgumentException e) {
+			System.out.printf("%-20s : %s%n ", "The Harmonic Mean", e.getMessage());
+		}	  
+
 		System.out.printf("\n(If you want to back Main Menu, press Y): ");
 		back(0);
      }
@@ -263,12 +271,16 @@ public class Main{
 	}
 	
 	static double HarmonicMean(int n, double[] Array) {
-		if((n+1)==Array.length){
-			return (1/Array[n]);
+		// Throw an exception if the array has an element which is 0 
+		if (Array[n] == 0) {
+			throw new IllegalArgumentException("Harmonic is undefined because 0 is the element of the array.");
 		}
-		else{
-			return ((1/Array[n++])+HarmonicMean(n,Array));
-		}
+		 
+		 if ((n + 1) == Array.length) 
+			return (1 / Array[n]); // Return n if its the last element
+		else 
+			return ((1 / Array[n++]) + HarmonicMean(n, Array)); // After the zero check, return the current value and increment n.
+		
 	}
 
 ////////////// MATRIX OPERATIONS /////////////////
