@@ -123,6 +123,7 @@ public class Main{
         
         	String line;
         	int ArrayLength;
+		int n = 0;
         
         	//Taking Array size from user as string, then converting it to int.
         	do
@@ -165,7 +166,7 @@ public class Main{
 			System.out.println("The Geometric Mean: Calculation Is Not Possible");
 		}
 		
-		System.out.printf("%-20s : %,.4f%n ", "The Harmonic Mean", Array.length/HarmonicMean(Array));
+		System.out.printf("%-20s : %,.4f%n ", "The Harmonic Mean", Array.length/HarmonicMean(n,Array));
 		System.out.printf("\n(If you want to back Main Menu, press Y): ");
 		back(0);
      }
@@ -255,27 +256,19 @@ public class Main{
 			product *= Array[i];
         	}
         	
-		
-
-		
 		if(product < 0) 
           	throw new IllegalArgumentException(); 
         
 		return Math.pow(product, (double)1/Array.length); 
 	}
 	
-	static double HarmonicMean(double[] Array) {
-		double sum = 0;
-
-    		for (double value : Array) 
-		{
-        		if (value == 0) 
-            		throw new IllegalArgumentException("Array contains zero, harmonic mean is undefined.");
-        		
-			sum += 1 / value;
-    		}
-
-    		return Array.length / sum; 
+	static double HarmonicMean(int n, double[] Array) {
+		if((n+1)==Array.length){
+			return (1/Array[n]);
+		}
+		else{
+			return ((1/Array[n++])+HarmonicMean(n,Array));
+		}
 	}
 
 ////////////// MATRIX OPERATIONS /////////////////
