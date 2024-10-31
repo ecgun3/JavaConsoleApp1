@@ -106,10 +106,10 @@ public class Main{
 			System.out.printf("(If you want to back Matrix Operations Menu, press Y): ");
 			back(1);
 		}
-        else if(n==2){
-			System.out.printf("(If you want to back Encryption-Decryption Menu, press Y): ");
-			back(2);
-		}
+        //else if(n==2){
+		//	System.out.printf("(If you want to back Encryption-Decryption Menu, press Y): ");
+		//	back(2);
+		//}
         else{
             System.out.println("(If you want to start game again, press R)");
             System.out.printf("(If you want to back Main Menu, press Y): ");
@@ -596,11 +596,12 @@ public static void CaesarChip(){
 	int choice;
 	int shiftValue = 0;
    	boolean shiftVal;
-
-	//Showing the menu only once
-	System.out.println("Welcome to The Encryption-Decryption Operations...\n\n[1] - Encryption\n[2] - Decryption\n[3] - Return to the Main Menu\n");
-
+	
 	do{
+	
+		//Showing the menu 
+		System.out.println("Welcome to The Encryption-Decryption Operations...\n\n[1] - Encryption\n[2] - Decryption\n[3] - Return to the Main Menu\n");
+
 		System.out.print("Make a choice: ");
 
 		while(!input.hasNextInt()) // loop to prevent user from entering character
@@ -661,43 +662,44 @@ public static void CaesarChip(){
 				String encryptedMessage = encryption(shiftValue,message2Encrypt);
 					 
 				System.out.printf("\nKey Value: %d%nMessage: %s%nEncrypted Message: %s%n",shiftValue,message2Encrypt,encryptedMessage);
-				System.out.printf("\n(If you want to back Main Menu, press Y): ");
-				back(2);
-					break;
+				//System.out.printf("\n(If you want to back Main Menu, press Y): ");
+				//back(2);
+				break;
 
 			case 2:
 				clearConsole();
 				System.out.println("Decryption selected!");
-			shiftVal = false;
+				
+				shiftVal = false;
  
 				while (!shiftVal) 
-			{
+				{
 						  
 					System.out.print("Enter a 'shift' value between -26 and 26 (include): ");
 					
 					if (input.hasNextInt()) 
-				{
-					shiftValue = input.nextInt();
-						
-					if (shiftValue >= -26 && shiftValue <= 26) 
 					{
-						if(shiftValue == 0)
+						shiftValue = input.nextInt();
+							
+						if (shiftValue >= -26 && shiftValue <= 26) 
 						{
-							System.out.print("Attention: Shift value is 0, no decryption will be performed!");
-						}    
-						
-						shiftVal = true;
-					}	    
+							if(shiftValue == 0)
+							{
+								System.out.print("Attention: Shift value is 0, no decryption will be performed!");
+							}    
+							
+							shiftVal = true;
+						}	    
+						else 
+						{
+							System.out.println("The 'shift' value should be in the [-26,26] range.");
+						}
+					} 
 					else 
 					{
-						System.out.println("The 'shift' value should be in the [-26,26] range.");
-					}
-				} 
-				else 
-				{
-					System.out.println("Invalid input. Please enter an integer.");
-					input.next();
-				}  
+						System.out.println("Invalid input. Please enter an integer.");
+						input.next();
+					}  
 				}
  
 					input.nextLine();
@@ -709,9 +711,9 @@ public static void CaesarChip(){
 					clearConsole();
 
 					System.out.printf("key: %d%nMessage: %s%nDecrypted: %s%n",shiftValue,message2Decrypt,DecryptedMessage);
-					System.out.printf("\n(If you want to back Encryption-Decryption Menu, press Y): ");
-					back(2);
-						break;
+					//System.out.printf("\n(If you want to back Encryption-Decryption Menu, press Y): ");
+					//back(2);
+					break;
 				case 3:
 					System.out.println("Returning to main menu!");
 					break;
