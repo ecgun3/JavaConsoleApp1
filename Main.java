@@ -271,9 +271,14 @@ public class Main{
 			System.out.printf("%-20s : %s%n ", "The Harmonic Mean", e.getMessage());
 		}	  
 
+<<<<<<< HEAD
 		System.out.println("\n(If you want to do another Array Operation, press R)");
 		System.out.printf("(If you want to back menu, press Y): ");
 		back(0,"do another Array Operation");
+=======
+		System.out.printf("\n(If you want to back Main Menu, press Y): ");
+		back(0);
+>>>>>>> main
      }
 
 	/**
