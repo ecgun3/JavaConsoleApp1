@@ -745,26 +745,31 @@
 	 
 	 /**
 	  * Calculates the determinant of a given matrix.
+	  * Calculates the determinant of a given matrix.
+	  * Calcule determinat of (n-1)*(n-1) matrix to find determinant of n*n matrix until 
+	  * n-1 is equal to 2 by calling itself recursively.
 	  *
 	  * @param matrix the matrix for which the determinant is to be calculated
 	  * @return the determinant of the matrix
 	  */
-	 public static double det(double[][] matrix)
-	 {
-		 if(matrix.length==2){
-		 return((matrix[0][0]*matrix[1][1])-(matrix[0][1]*matrix[1][0]));
-		 }
-		 else{
-			 int total = 0;
-			 for(int i=0; i<matrix.length; i++){
-				 if(i%2==0)
-				 total += matrix[0][i]*det(submatrix(matrix,0,i));
-				 else
-				 total -= matrix[0][i]*det(submatrix(matrix,0,i));
-			 }
-			 return total;
-		 }
-	 }
+	public static double det(double[][] matrix)
+	{
+		if(matrix.length==2){
+			return((matrix[0][0]*matrix[1][1])-(matrix[0][1]*matrix[1][0]));
+		}
+		else{
+			
+			int total = 0;
+			for(int i=0; i<matrix.length; i++){
+				if(i%2==0)
+					total += matrix[0][i]*det(submatrix(matrix,0,i));
+				else
+					total -= matrix[0][i]*det(submatrix(matrix,0,i));
+			}
+			
+			return total;
+		}
+	}
  
 	 /**
 	  * Calculates the adjoint of a given matrix.
@@ -772,18 +777,19 @@
 	  * @param matrix the matrix for which the adjoint is to be calculated
 	  * @return the adjoint matrix
 	  */
-	 public static double[][] adjointMatrix(double[][] matrix){
+	public static double[][] adjointMatrix(double[][] matrix){
  
-		 double[][] adjmat = new double[matrix.length][matrix.length];
+		double[][] adjmat = new double[matrix.length][matrix.length];
  
-		 if(matrix.length>2){
-			 for(int i=0; i<matrix.length ; i++){
-				 for(int j=0; j<matrix.length; j++){
-					 double a=det(submatrix(matrix,i,j));
-					 if(a==0)
-						 adjmat[i][j]=0;
-					 else
-						 adjmat[i][j] = a*((double)Math.pow(-1,i+j));
+		if(matrix.length>2){
+			for(int i=0; i<matrix.length ; i++){
+				for(int j=0; j<matrix.length; j++){
+					double a=det(submatrix(matrix,i,j));
+					
+					if(a==0)
+						adjmat[i][j]=0;
+					else
+						adjmat[i][j] = a*((double)Math.pow(-1,i+j));
 				 }
 			 }
 		 }
