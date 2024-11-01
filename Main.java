@@ -917,18 +917,18 @@
 		 
 		 switch (choice)
 		 {
-			 case 1:
+			 case 1: // Case to encrypting the message
 				 clearConsole();
 				 System.out.println("Encryption selected!");
 				 
 				 shiftVal = false; //Shift value validation flag
   
-				 while (!shiftVal) 
+				 while (!shiftVal) // To force the value be in range
 				 {
 						   
 					 System.out.print("Enter a 'shift' value between -26 and 26 (include): ");
 					 
-					 if(input.hasNextInt())
+					 if(input.hasNextInt()) // Check if the value is integer
 					 {
 						 shiftValue = input.nextInt();
  
@@ -966,7 +966,7 @@
 				 back(5,"to do another Encryption Operation"); // allow user to repeat or go back
 				 break;
  
-			 case 2:
+			 case 2: // Case to decrypting the message
 				 clearConsole();
 				 System.out.println("Decryption selected!");
 				 
@@ -1007,6 +1007,7 @@
 				 String message2Decrypt = input.nextLine();
   
 				 // Decrypt the message by reversing the shift
+				 //This operation reverses the shifting direction and decrypts the message
 				 String DecryptedMessage = encryption((26-shiftValue),message2Decrypt);
 				 clearConsole();
  
