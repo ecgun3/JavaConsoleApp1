@@ -174,10 +174,10 @@ public class Main{
 				MatrixMenuDecision("c");
 			else if(n==4)
 				MatrixMenuDecision("d");
-			/*else if(n==5)
+			else if(n==5)
 				choicee(1);
 			else if(n==6)
-				choicee(2);*/
+				choicee(2);
 			else if(n==7)
 				tictac();
 		}
@@ -859,145 +859,164 @@ public class Main{
 	 * enter a message to encrypt or decrypt.
 	 *
 	 * <p>This method continuously displays the menu until the user chooses to
-	 * return to the main menu. It handles input validation, checking for valid
-	 * integer inputs for both menu choices and shift values. The method also calls
-	 * {@code encryption} to perform the actual encryption and decryption processes
-	 * based on the user's shift value.</p>
-	 *
-	 * @see #encryption(int, String)
+	 * return to the main menu. 
+	 * 
+	 * @see #choicee(int)
 	 */
-
-	public static void CaesarChip(){
-
+	public static void CaesarChip()
+	{
 		Scanner input = new Scanner(System.in);
-
+	
 		int choice;
-		int shiftValue = 0;
-		boolean shiftVal;
 		
-		do{
-		
+		do {
 			//Showing the menu 
 			System.out.println("Welcome to The Encryption-Decryption Operations...\n\n[1] - Encryption\n[2] - Decryption\n[3] - Return to the Main Menu\n");
+	
 			System.out.print("Make a choice: ");
-
+	
 			while(!input.hasNextInt()) // loop to prevent user from entering character
 			{
 				System.out.println("Invalid input. Please enter an integer (1, 2, or 3).");
 				input.next(); // skip the invalid input 
 				System.out.print("Make a choice: ");
 			}
-
+	
 			choice = input.nextInt();
-
-			if (choice < 1 || choice > 3){
+			choicee(choice);
+	
+			if (choice < 1 || choice > 3)
+			{
 				System.out.println("Please make a choice in the given scale!");
 				continue; 
 			}
-
-			switch (choice) {
-				case 1:
-					clearConsole();
-					System.out.println("\nEncryption selected!");
-					shiftVal = false;
 	
-					while (!shiftVal) {
-							
-						System.out.print("Enter a 'shift' value between -26 and 26 (include): ");
-						
-						if(input.hasNextInt())
-						{
-							shiftValue = input.nextInt();
-
-							if(shiftValue >= -26 && shiftValue <= 26)
-							{
-								if(shiftValue == 0)
-								{
-									System.out.println("Shift value is 0. No encryption will be performed.");
-								}
-
-							shiftVal = true; 
-							}
-							else 
-							{
-								System.out.println("The 'shift' value should be in the [-26,26] range.");
-							}
-						}
-						else
-						{
-							System.out.println("Invalid input. Please enter an integer.");
-							input.next();
-						}
-							
-					}
-	
-					input.nextLine();
-	
-					System.out.print("Enter the message to be encrypted: ");
-					String message2Encrypt = input.nextLine();
-	
-					String encryptedMessage = encryption(shiftValue,message2Encrypt);
-						
-					System.out.printf("\nKey Value: %d%nMessage: %s%nEncrypted Message: %s%n",shiftValue,message2Encrypt,encryptedMessage);
-					//back(5);
-					break;
-
-				case 2:
-					clearConsole();
-					System.out.println("Decryption selected!");
-					
-					shiftVal = false;
-	
-					while (!shiftVal) 
-					{
-							
-						System.out.print("Enter a 'shift' value between -26 and 26 (include): ");
-						
-						if (input.hasNextInt()) 
-						{
-							shiftValue = input.nextInt();
-								
-							if (shiftValue >= -26 && shiftValue <= 26) 
-							{
-								if(shiftValue == 0)
-								{
-									System.out.print("Attention: Shift value is 0, no decryption will be performed!");
-								}    
-								
-								shiftVal = true;
-							}	    
-							else 
-							{
-								System.out.println("The 'shift' value should be in the [-26,26] range.");
-							}
-						} 
-						else 
-						{
-							System.out.println("Invalid input. Please enter an integer.");
-							input.next();
-						}  
-					}
-	
-					input.nextLine();
-	
-					System.out.print("Enter the message to be decrypted: ");
-					String message2Decrypt = input.nextLine();
-	
-					String DecryptedMessage = encryption((26-shiftValue),message2Decrypt);
-					clearConsole();
-
-					System.out.printf("key: %d%nMessage: %s%nDecrypted: %s%n",shiftValue,message2Decrypt,DecryptedMessage);
-					//back(6);
-					break;
-				case 3:
-					System.out.println("Returning to main menu!");
-					break;
-			}
+			
 		} while (choice != 3);
 			
 		clearConsole();
 		menu();
 		input.close();
+	}
+
+	/**
+	 * This method handles input validation, checking for valid
+	 * integer inputs for both menu choices and shift values. The method also calls
+	 * {@code encryption} to perform the actual encryption and decryption processes
+	 * based on the user's shift value.</p>
+	 *
+	 * @param choice
+	 * 
+	 * @see #encryption(int, String)
+	 */
+	public static void choicee(int choice)
+	{
+		int shiftValue = 0;
+		boolean shiftVal;
+		
+		switch (choice)
+		{
+			case 1:
+				clearConsole();
+				System.out.println("Encryption selected!");
+				
+				shiftVal = false;
+ 
+				while (!shiftVal) 
+				{
+						  
+					System.out.print("Enter a 'shift' value between -26 and 26 (include): ");
+					
+					if(input.hasNextInt())
+					{
+						shiftValue = input.nextInt();
+
+						if(shiftValue >= -26 && shiftValue <= 26)
+						{
+							if(shiftValue == 0)
+							{
+								System.out.println("Shift value is 0. No encryption will be performed.");
+							}
+							shiftVal = true; 
+						}
+						else 
+						{
+							System.out.println("The 'shift' value should be in the [-26,26] range.");
+						}
+					}
+					else
+					{
+						System.out.println("Invalid input. Please enter an integer.");
+						input.next();
+					}	  
+				}
+ 
+				input.nextLine();
+ 
+				System.out.print("Enter the message to be encrypted: ");
+				String message2Encrypt = input.nextLine();
+ 
+				String encryptedMessage = encryption(shiftValue,message2Encrypt);
+					 
+				System.out.printf("\nKey Value: %d%nMessage: %s%nEncrypted Message: %s%n",shiftValue,message2Encrypt,encryptedMessage);
+				System.out.printf("\n(If you want to do another Encryption Operation, press R): ");
+				System.out.printf("\n(If you want to back menu, press Y): ");
+				back(5,"to do another Encryption Operation");
+				break;
+
+			case 2:
+				clearConsole();
+				System.out.println("Decryption selected!");
+				
+				shiftVal = false;
+ 
+				while (!shiftVal) 
+				{		  
+					System.out.print("Enter a 'shift' value between -26 and 26 (include): ");
+					
+					if (input.hasNextInt()) 
+					{
+						shiftValue = input.nextInt();
+							
+						if (shiftValue >= -26 && shiftValue <= 26) 
+						{
+							if(shiftValue == 0)
+							{
+								System.out.print("Attention: Shift value is 0, no decryption will be performed!");
+							}    
+							
+							shiftVal = true;
+						}	    
+						else 
+						{
+							System.out.println("The 'shift' value should be in the [-26,26] range.");
+						}
+					} 
+					else 
+					{
+						System.out.println("Invalid input. Please enter an integer.");
+						input.next();
+					}  
+				}
+ 
+				input.nextLine();
+ 
+				System.out.print("Enter the message to be decrypted: ");
+				String message2Decrypt = input.nextLine();
+ 
+				String DecryptedMessage = encryption((26-shiftValue),message2Decrypt);
+				clearConsole();
+
+				System.out.printf("key: %d%nMessage: %s%nDecrypted: %s%n",shiftValue,message2Decrypt,DecryptedMessage);
+				System.out.printf("\n(If you want to do another Decryption Operation, press R): ");
+				System.out.printf("\n(If you want to back menu, press Y): ");
+				back(6,"to do another Decryption Operation");
+				break;
+			
+			case 3:
+				System.out.println("Returning to main menu!");
+				break;
+		}
 	}
 
 	/**
@@ -1013,12 +1032,16 @@ public class Main{
 	 */
     	public static String encryption(int key,String text){
         	StringBuffer result = new StringBuffer();
+		
+		// if key is a negative value, we add 26 to stay in range
+		if(key < 0)
+			key = key + 26;
 
         	for(int i = 0; i < text.length(); i++)
         	{
             	char c = text.charAt(i);
 
-            	if (Character.isLetter(c)){
+            	if (Character.isLetter(c)) {
 
           		char base = Character.isLowerCase(c) ? 'a' : 'A';
                 	char newChar = (char) ((c - base + key) % 26 + base);
