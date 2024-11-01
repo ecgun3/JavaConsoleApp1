@@ -189,7 +189,7 @@ public class Main{
 			else{
 				System.out.println("\n(If you want to " + str +", press R)");
 				System.out.printf("(If you want to back menu, press Y): ");
-				back(n,str);
+				back(n,str);//function call itself because no valid character entered
 			}
 		}
 
@@ -217,15 +217,14 @@ public class Main{
 
      	Scanner scan = new Scanner(System.in);
         
-        	String line;
-        	int ArrayLength;
+        String line;
+    	int ArrayLength;
 		int n = 0;
         
-        	//Taking Array size from user as string, then converting it to int.
-        	do
+    	//Taking Array size from user as string, then converting it to int.
+        do
      	{
-
-            System.out.print("Enter the size of array: ");
+        	System.out.print("Enter the size of array: ");
             line = scan.nextLine();
 
           } while(!arraySizeCheck(line));
@@ -244,6 +243,8 @@ public class Main{
                } while(!arrayElementCheck(line));
                
 			Array[i] = Double.parseDouble(line);
+			if(Array[i]==-0)
+				Array[i]=0;
           }
         
 		//print the array as string
@@ -402,7 +403,7 @@ public class Main{
 			product *= Array[i];
         	}
         	
-		if(product < 0) 
+		if(product < 0) //because geometric mean cannot be calculated for negative values
           	throw new IllegalArgumentException(); 
         
 		return Math.pow(product, (double)1/Array.length); 
@@ -419,13 +420,13 @@ public class Main{
 	static double HarmonicMean(int n, double[] Array) {
 		// Throw an exception if the array has an element which is 0 
 		if (Array[n] == 0) {
-			throw new IllegalArgumentException("Harmonic is undefined because 0 is the element of the array.");
+			throw new IllegalArgumentException("Harmonic mean is undefined because an element of the array is 0.");
 		}
 		 
-		 if ((n + 1) == Array.length) 
+		if ((n + 1) == Array.length) 
 			return (1 / Array[n]); // Return n if its the last element
 		else 
-			return ((1 / Array[n++]) + HarmonicMean(n, Array)); // After the zero check, return the current value and increment n.
+			return ((1 / Array[n++]) + HarmonicMean(n, Array)); // After the zero check, return the current value and increment n. Then call itself to do calculation for next element of array.
 		
 	}
 
@@ -482,7 +483,7 @@ public class Main{
 	*/
     	public static void MatrixMenuDecision(String userInput){
 
-		if(userInput.equals("A")||userInput.equals("a")){ // Transpose
+		if(userInput.equals("A")||userInput.equals("a")){ // call Transpose function and print it
 			clearConsole();
 
 			double mat[][] = transpose(matrixCreate(1));
@@ -494,7 +495,7 @@ public class Main{
 			System.out.printf("(If you want to back menu, press Y): ");
 			back(1,"do another Transpose Operation");
 		}
-		else if(userInput.equals("B") || userInput.equals("b")){ // Inverse
+		else if(userInput.equals("B") || userInput.equals("b")){ // call Inverse function
 			clearConsole();
 			Inverse();
             	
@@ -502,7 +503,7 @@ public class Main{
             	System.out.printf("(If you want to back menu, press Y): ");
             	back(2,"do another Inverse Operation");
 		}
-		else if(userInput.equals("C") || userInput.equals("c")){ // Matrix Multiplication
+		else if(userInput.equals("C") || userInput.equals("c")){ // call Matrix Multiplication function
 			clearConsole();
 			MatrixMultiplication();
 			
@@ -510,7 +511,7 @@ public class Main{
 			System.out.printf("(If you want to back menu, press Y): ");
 			back(3,"do another Multiplication Operation");
 		}
-		else if(userInput.equals("D") || userInput.equals("d")){ // element wise multiplication
+		else if(userInput.equals("D") || userInput.equals("d")){ // call element wise multiplication matrix
 			clearConsole(); 
 			elementwiseMatrixMultiplication();
 			
@@ -518,7 +519,7 @@ public class Main{
 			System.out.printf("(If you want to back menu, press Y): ");
 			back(4,"do another Element Wise Multiplication Operation");
 		}
-		else if(userInput.equals("E") || userInput.equals("e")){ // Main menu return
+		else if(userInput.equals("E") || userInput.equals("e")){ // call Main menu function to return
 			clearConsole();
 			menu();
 		} 
@@ -529,8 +530,8 @@ public class Main{
 	}
 
 	// Global variables
-	static String row;
-	static String col;
+	private static String row; //these values are global to use again these values
+	private static String col;
 
 	/**
 	 * Creates a matrix based on user-defined row and column sizes. 
@@ -551,7 +552,7 @@ public class Main{
 	 * 
 	 * @return A 2D array of doubles representing the created matrix.
 	 */
-    	public static double[][] matrixCreate(int x)  //Matrix Creation
+    	public static double[][] matrixCreate(int x)  //Matrix Creation function
 	{     
 		Scanner input = new Scanner(System.in);
 		
@@ -559,7 +560,7 @@ public class Main{
 
 		switch(x){
 
-			case(1):
+			case(1):// ask for row and column size of the Matrix to user
 				do{
 
 					System.out.print("Enter row size of the Matrix: ");
@@ -572,7 +573,7 @@ public class Main{
 				} while(!arraySizeCheck(col));
 				break;
 
-			case(2):
+			case(2):// column size of the last created matrix is ​​used for row size and ask for only column size of the Matrix to user
 				row = col;
 				do{
 					System.out.print("Enter column size of the Matrix: ");
@@ -580,7 +581,7 @@ public class Main{
 				} while(!arraySizeCheck(col));
 				break;
 
-			case(3):
+			case(3)://only ask for one size, row and col size will be the same
 				do{
 					System.out.print("Enter size of the Square Matrix: ");
 					row = input.nextLine();
@@ -588,11 +589,11 @@ public class Main{
 				} while(!arraySizeCheck(row));
 				break;
 
-			default:
+			default://row and column sizes of the last created matrix is ​​used again
 				break;
 		}
 
-		int rowsize = Integer.parseInt(row);
+		int rowsize = Integer.parseInt(row);//change sizes of the matrix to integer
 		int colsize = Integer.parseInt(col);
 
 		double Matrix[][] = new double[rowsize][colsize];
@@ -602,11 +603,13 @@ public class Main{
 			for(int j=0; j<colsize; j++)
 				{	
 					do {
-						System.out.printf("Enter the Matrix[%d][%d]: ", i,j);
+						System.out.printf("Enter the Matrix[%d][%d]: ", i,j);//fill the matrix with entered values
 						matrixInp = input.nextLine();
 						}
 					while(!arrayElementCheck(matrixInp));
 					Matrix[i][j] = Double.parseDouble(matrixInp);
+					if(Matrix[i][j]==-0)
+						Matrix[i][j]=0;
 				}
 			}
 		System.out.printf("%nYour Matrix: %n");
@@ -624,13 +627,13 @@ public class Main{
 	 *
 	 * @param mat A 2D array of doubles representing the matrix to be printed.
 	 */
-	static void printMatrix(double[][] mat){	//Printing Double Matrix (overload)
+	static void printMatrix(double[][] mat){	//Printing Double Matrix
 
 		for(int i = 0; i < mat.length; i++)
 		{
 			for(int j = 0; j < mat[0].length; j++)
 			{
-				System.out.printf("%,2f ", mat[i][j]);
+				System.out.printf("%.2f ", mat[i][j]);
 			}
 			System.out.printf("%n");
 		}
@@ -673,15 +676,15 @@ public class Main{
 	}
 
 	/**
-	 * Calculates the inverse of a 2x2 matrix.
+	 * Calculates the inverse of a matrix.
 	 * If the determinant is zero, prompts the user for a new matrix.
 	 */
    	public static void Inverse()
 	{
-		double[][] mat	= matrixCreate(2);
+		double[][] mat	= matrixCreate(3);
 
 		// System.out.printf("determinant:%d%n%n%n",det(mat));
-		double det=(double)det(mat);
+		double det=(double)det(mat);//store determinant of the matrix, if it is zero ask for another matrix
 		if(det==0)
 		{
 			System.out.println("\nThis matrix cannot be inverted because its determinant is zero, please enter another matrix.\n");
@@ -690,14 +693,14 @@ public class Main{
 		else 
 		{
 			det = 1 / det;
-			mat = transpose(adjointMatrix(mat));
+			mat = transpose(adjointMatrix(mat));//take transpose of adjoint matrix
 			double[][] mat2 = new double[mat.length][mat.length];
 			for(int i = 0; i < mat.length ; i++)
 			{
 				for(int j = 0; j < mat.length; j++)
 				{
-					double a = ((double)mat[i][j])*det;
-					if(a == 0)
+					double a = ((double)mat[i][j])*det;//multiply element of transposed adjoint matrix and 1/determinant
+					if(a == 0)//Sets equal to zero to avoid negative zero (-0.00)
 						mat2[i][j]=0;
 					else
 						mat2[i][j]=a;
@@ -719,24 +722,24 @@ public class Main{
 	 */
     	public static double[][] submatrix(double[][] matrix,int m, int n)
 	{
-		double[][] submat = new double[matrix.length-1][matrix.length-1];
+		double[][] submat = new double[matrix.length-1][matrix.length-1];//create one size smaller matrix
 
 		int subrow=0, subcol=0;
 
 		for(int i=0; i<matrix.length ; i++)
 		{
-			if(i==m)
+			if(i==m)//if current row equal to row which will deleted, skip
 				continue;
-			subcol=0;
+			subcol=0;//sets equal column indext to 0 at beginning of every row
 			
 			for(int j=0; j<matrix.length; j++)
 			{
-				if(j==n)
+				if(j==n)//if current column equal to column which will deleted, skip
 					continue;
 				submat[subrow][subcol++]=matrix[i][j];
 			}
 			
-			subrow++;	
+			subrow++;//increases index of row
 		}
 
 		return submat;
@@ -744,13 +747,14 @@ public class Main{
 	
 	/**
 	 * Calculates the determinant of a given matrix.
+	 * Calcule determinat of (n-1)*(n-1) matrix to find determinant of n*n matrix until n-1 is equal to 2 by calling itself recursively.
 	 *
 	 * @param matrix the matrix for which the determinant is to be calculated
 	 * @return the determinant of the matrix
 	 */
 	public static double det(double[][] matrix)
 	{
-		if(matrix.length==2){
+		if(matrix.length==2){//if matrix length equal to 2*2 calculate determinant, else calls itself and divides the matrix into small pieces of 2*2 
 		return((matrix[0][0]*matrix[1][1])-(matrix[0][1]*matrix[1][0]));
 		}
 		else{
@@ -775,18 +779,18 @@ public class Main{
 
 		double[][] adjmat = new double[matrix.length][matrix.length];
 
-		if(matrix.length>2){
+		if(matrix.length>2){//creates a matrix which full with determinants of the submatrices
 			for(int i=0; i<matrix.length ; i++){
 				for(int j=0; j<matrix.length; j++){
 					double a=det(submatrix(matrix,i,j));
-					if(a==0)
+					if(a==0)//Sets equal to zero to avoid negative zero (-0.00)
 						adjmat[i][j]=0;
 					else
-						adjmat[i][j] = a*((double)Math.pow(-1,i+j));
+						adjmat[i][j] = a*((double)Math.pow(-1,i+j));//if sum of row and column size is odd, multiply with -1
 				}
 			}
 		}
-		else{
+		else{//swaps values for taking adjoint of 2*2 matrix
 			adjmat[0][0]=matrix[1][1];
 			adjmat[0][1]=-matrix[0][1];
 			adjmat[1][0]=-matrix[1][0];
@@ -806,10 +810,10 @@ public class Main{
 		double mat1[][];
 		double mat2[][];
 
-		System.out.println("Matrix 1:");
+		System.out.println("Matrix 1:");//ask for creating 2 matrix to multiply
 		mat1 = matrixCreate(1);
 		System.out.println("\nMatrix 2 (the row size is equal to column size of the Matrix 1):");
-		mat2 = matrixCreate(2);
+		mat2 = matrixCreate(2);//won't ask for row size of the second matrix because it is equal to column size of the first matrix
 		
 		double resultmat[][] = new double[mat1.length][mat2[0].length];
 
@@ -834,17 +838,17 @@ public class Main{
 		double mat1[][];
 		double mat2[][];
 		
-		System.out.println("Matrix 1:");
+		System.out.println("Matrix 1:");//ask for creating 2 matrix to multiply
 		mat1 = matrixCreate(1);
 		System.out.println("\nMatrix 2 (have same row and column size with Matrix 1):");
-		mat2 = matrixCreate(4);
+		mat2 = matrixCreate(4);//won't ask for row and column size of the second matrix because they are equal to row and column size of the first matrix
 		
 		double resultmat[][] = new double[mat1.length][mat1[0].length];
 
 		for(int i=0; i<mat1.length; i++)
 			for(int j=0; j<mat1[0].length; j++)
 				{
-					resultmat[i][j] = mat1[i][j] * mat2[i][j];
+					resultmat[i][j] = mat1[i][j] * mat2[i][j];//multiply elements which are at the same index
 				}
 
 				System.out.println("\n...\n Your Element-wise Multiplied Matrix is: \n");
@@ -866,34 +870,35 @@ public class Main{
 	public static void CaesarChip()
 	{
 		Scanner input = new Scanner(System.in);
-	
+	 
 		int choice;
-		
+		 
 		do {
 			//Showing the menu 
 			System.out.println("Welcome to The Encryption-Decryption Operations...\n\n[1] - Encryption\n[2] - Decryption\n[3] - Return to the Main Menu\n");
-	
+	 
 			System.out.print("Make a choice: ");
-	
+	 
 			while(!input.hasNextInt()) // loop to prevent user from entering character
 			{
 				System.out.println("Invalid input. Please enter an integer (1, 2, or 3).");
 				input.next(); // skip the invalid input 
 				System.out.print("Make a choice: ");
 			}
-	
+	 
 			choice = input.nextInt();
 			choicee(choice);
-	
+	 
 			if (choice < 1 || choice > 3)
 			{
+				clearConsole();
 				System.out.println("Please make a choice in the given scale!");
 				continue; 
 			}
-	
-			
-		} while (choice != 3);
-			
+	 
+			 
+		} while (choice != 3); 
+			 
 		clearConsole();
 		menu();
 		input.close();
@@ -910,114 +915,117 @@ public class Main{
 	 * @see #encryption(int, String)
 	 */
 	public static void choicee(int choice)
-	{
-		int shiftValue = 0;
-		boolean shiftVal;
-		
-		switch (choice)
-		{
-			case 1:
-				clearConsole();
-				System.out.println("Encryption selected!");
-				
-				shiftVal = false;
- 
-				while (!shiftVal) 
-				{
-						  
-					System.out.print("Enter a 'shift' value between -26 and 26 (include): ");
-					
-					if(input.hasNextInt())
-					{
-						shiftValue = input.nextInt();
-
-						if(shiftValue >= -26 && shiftValue <= 26)
-						{
-							if(shiftValue == 0)
-							{
-								System.out.println("Shift value is 0. No encryption will be performed.");
-							}
-							shiftVal = true; 
-						}
-						else 
-						{
-							System.out.println("The 'shift' value should be in the [-26,26] range.");
-						}
-					}
-					else
-					{
-						System.out.println("Invalid input. Please enter an integer.");
-						input.next();
-					}	  
-				}
- 
-				input.nextLine();
- 
-				System.out.print("Enter the message to be encrypted: ");
-				String message2Encrypt = input.nextLine();
- 
-				String encryptedMessage = encryption(shiftValue,message2Encrypt);
+	 {
+		 int shiftValue = 0;
+		 boolean shiftVal;
+		 
+		 switch (choice)
+		 {
+			 case 1: // Case to encrypting the message
+				 clearConsole();
+				 System.out.println("Encryption selected!");
+				 
+				 shiftVal = false; //Shift value validation flag
+  
+				 while (!shiftVal) // To force the value be in range
+				 {
+						   
+					 System.out.print("Enter a 'shift' value between -26 and 26 (include): ");
 					 
-				System.out.printf("\nKey Value: %d%nMessage: %s%nEncrypted Message: %s%n",shiftValue,message2Encrypt,encryptedMessage);
-				System.out.printf("\n(If you want to do another Encryption Operation, press R): ");
-				System.out.printf("\n(If you want to back menu, press Y): ");
-				back(5,"to do another Encryption Operation");
-				break;
-
-			case 2:
-				clearConsole();
-				System.out.println("Decryption selected!");
-				
-				shiftVal = false;
+					 if(input.hasNextInt()) // Check if the value is integer
+					 {
+						 shiftValue = input.nextInt();
  
-				while (!shiftVal) 
-				{		  
-					System.out.print("Enter a 'shift' value between -26 and 26 (include): ");
-					
-					if (input.hasNextInt()) 
-					{
-						shiftValue = input.nextInt();
-							
-						if (shiftValue >= -26 && shiftValue <= 26) 
-						{
-							if(shiftValue == 0)
-							{
-								System.out.print("Attention: Shift value is 0, no decryption will be performed!");
-							}    
-							
-							shiftVal = true;
-						}	    
-						else 
-						{
-							System.out.println("The 'shift' value should be in the [-26,26] range.");
-						}
-					} 
-					else 
-					{
-						System.out.println("Invalid input. Please enter an integer.");
-						input.next();
-					}  
-				}
+						 if(shiftValue >= -26 && shiftValue <= 26)
+						 {
+							 if(shiftValue == 0)
+							 {
+								 System.out.println("Shift value is 0. No encryption will be performed.");
+							 }
+							 shiftVal = true; // Valid shift value entered
+						 }
+						 else 
+						 {
+							 System.out.println("The 'shift' value should be in the [-26,26] range.");
+						 }
+					 }
+					 else
+					 {
+						 System.out.println("Invalid input. Please enter an integer.");
+						 input.next(); //Skip invalid input
+					 }	  
+				 }
+  
+				 // Clear the newline char of Scanner obj taht remains in the input after an integer entered
+				 input.nextLine(); 
+  
+				 System.out.print("Enter the message to be encrypted: ");
+				 String message2Encrypt = input.nextLine();
+  
+				 String encryptedMessage = encryption(shiftValue,message2Encrypt);
+					  
+				 System.out.printf("\nKey Value: %d%nMessage: %s%nEncrypted Message: %s%n",shiftValue,message2Encrypt,encryptedMessage);
+				 System.out.printf("\n(If you want to do another Encryption Operation, press R): ");
+				 System.out.printf("\n(If you want to back menu, press Y): ");
+				 back(5,"to do another Encryption Operation"); // allow user to repeat or go back
+				 break;
  
-				input.nextLine();
+			 case 2: // Case to decrypting the message
+				 clearConsole();
+				 System.out.println("Decryption selected!");
+				 
+				 shiftVal = false;
+  
+				 while (!shiftVal) 
+				 {		  
+					 System.out.print("Enter a 'shift' value between -26 and 26 (include): ");
+					 
+					 if (input.hasNextInt()) 
+					 {
+						 shiftValue = input.nextInt();
+							 
+						 if (shiftValue >= -26 && shiftValue <= 26) 
+						 {
+							 if(shiftValue == 0)
+							 {
+								 System.out.print("Attention: Shift value is 0, no decryption will be performed!");
+							 }    
+							 
+							 shiftVal = true;
+						 }	    
+						 else 
+						 {
+							 System.out.println("The 'shift' value should be in the [-26,26] range.");
+						 }
+					 } 
+					 else 
+					 {
+						 System.out.println("Invalid input. Please enter an integer.");
+						 input.next();
+					 }  
+				 }
+  
+				 input.nextLine();
+  
+				 System.out.print("Enter the message to be decrypted: ");
+				 String message2Decrypt = input.nextLine();
+  
+				 // Decrypt the message by reversing the shift
+				 //This operation reverses the shifting direction and decrypts the message
+				 String DecryptedMessage = encryption((26-shiftValue),message2Decrypt);
+				 clearConsole();
  
-				System.out.print("Enter the message to be decrypted: ");
-				String message2Decrypt = input.nextLine();
- 
-				String DecryptedMessage = encryption((26-shiftValue),message2Decrypt);
-				clearConsole();
-
-				System.out.printf("key: %d%nMessage: %s%nDecrypted: %s%n",shiftValue,message2Decrypt,DecryptedMessage);
-				System.out.printf("\n(If you want to do another Decryption Operation, press R): ");
-				System.out.printf("\n(If you want to back menu, press Y): ");
-				back(6,"to do another Decryption Operation");
-				break;
-			
-			case 3:
-				System.out.println("Returning to main menu!");
-				break;
-		}
-	}
+				 System.out.printf("key: %d%nMessage: %s%nDecrypted: %s%n",shiftValue,message2Decrypt,DecryptedMessage);
+				 System.out.printf("\n(If you want to do another Decryption Operation, press R): ");
+				 System.out.printf("\n(If you want to back menu, press Y): ");
+				 back(6,"to do another Decryption Operation");
+				 break;
+			 
+			 case 3:
+				 System.out.println("Returning to main menu!");
+				 break;
+		 }
+	 }
 
 	/**
 	 * Encrypts a given text using the Caesar cipher algorithm with a specified
@@ -1030,37 +1038,55 @@ public class Main{
 	 * @param text The input string to be encrypted. This can include any characters.
 	 * @return The encrypted text after applying the Caesar cipher.
 	 */
-    	public static String encryption(int key,String text){
-        	StringBuffer result = new StringBuffer();
-		
-		// if key is a negative value, we add 26 to stay in range
-		if(key < 0)
+	public static String encryption(int key,String text){
+          
+		/*
+		 * String objects are immutable. Each time a character is added, a new String object is created.
+		 * Using StringBuffer (mutable) we can insert characters directly and modify the same object         
+		 */
+		StringBuffer result = new StringBuffer();
+
+		if(key<0)//if shift value is negative, adding 26 to stay in range
 			key = key + 26;
-
-        	for(int i = 0; i < text.length(); i++)
-        	{
-            	char c = text.charAt(i);
-
-            	if (Character.isLetter(c)) {
-
-          		char base = Character.isLowerCase(c) ? 'a' : 'A';
-                	char newChar = (char) ((c - base + key) % 26 + base);
-                	result.append(newChar);
-                    
-            	}
-            	else 
-                	result.append(c); 
-        	}
-
-        	return result.toString();
-    	}
+	
+		for(int i = 0; i < text.length(); i++)
+		{
+			char c = text.charAt(i); // Get the current character
+	
+			if (Character.isLetter(c)){
+				/*
+				 * Determine the base character for the shift (either 'a' or 'A')
+				 * Base --> 'a' if it is a lowercase letter
+				 * Base --> 'A' if it is an uppercase letter.
+				 */
+				char base = Character.isLowerCase(c) ? 'a' : 'A';
+	
+				/* 
+				 * Obtain a new encrypted character by shifting the letter 
+				 * With using c - base, we find the rank of the character according to the base 
+				 * The 'key', which is the amount of scrolling, is added to this and cyclic scrolling is achieved within 26 letters with 26%.
+				 * By summing the shifted value with 'base', we obtain the encrypted character in its Unicode base.
+				*/
+				char newChar = (char) ((c - base + key) % 26 + base);
+	
+				// Append the new character (shifted) to the result
+				result.append(newChar);
+				
+			}
+			else  // If the character is not a letter append to result
+				result.append(c); 
+		}
+	
+		// Convert the StringBuffer to a String
+		return result.toString();
+	}
 ///////// TIC TAC TOE /////////////
 
-static Scanner input= new Scanner (System.in);
-static int rows=3;
-static int cols=3;
-static char[][] board = new char[rows][cols];
-static char currentPlayer= 'X';
+private static Scanner input= new Scanner (System.in);
+private static int rows=3;
+private static int cols=3;
+private static char[][] board = new char[rows][cols];
+private static char currentPlayer= 'X';
 
 	/**
 	 * Starts the Tic Tac Toe game, handling player turns and game logic.
@@ -1072,45 +1098,44 @@ static char currentPlayer= 'X';
 	 * and prompts the user for further action (to restart the game or return to the menu).
 	 */
 	public static void tictac(){
-		int movementCounter=0;//to check how many moves are made
-		clearConsole();
-		initializeBoard();
-		while(true){//If there are cells that not empty user should make a move
+		int movementCounter=0;//Movement counter keeps track of the moves in the game.
+		clearConsole();//The clearconsole function clears the terminal, making it look clean and tidy.
+		initializeBoard();//Initializes the board to be used in the game with the initializeboard function.
+		while(true){
 			printBoard();
-			System.out.println(currentPlayer+"'s turn. Where do you want to put character?");//coordinates for the movement
+			System.out.println(currentPlayer+"'s turn. Where do you want to put character?");
 
-			//movement should be in a function
-			String move;
+			String move;//The 'move' string is defined to hold the move the user wants to make.
 			do{
 				move = input.nextLine();
-			} while(!validMove(move));
+			} while(!validMove(move));//The user's location input is taken until a valid location input (1-9) is received from the user. The current value received is kept in the 'move' variable
 		
 			int nextMove = Integer.parseInt(move);
 
-			if(!isempty(nextMove)){
-				clearConsole();//clear console command
+			if(!isempty(nextMove)){//If the cell whose location is entered is not empty, you will be prompted for entry again.
+				clearConsole();
 				System.out.println("This move can not be done. Choose an empty cell to move");
 			}
 			else {
-				clearConsole();;//clear console command
+				clearConsole();
 				makeMove(nextMove);//if the cell is empty the move can be done
 				movementCounter++;
 				
-				if(winner()){
-					clearConsole();;//clear console command
-					printBoard();
+				if(winner()){// winner function is called to check if there is a winner.
+					clearConsole();
+					printBoard();//The final state of the board where the user enters his move is displayed on the terminal.
 					
-					System.out.println("Game is over. The winner is "+ currentPlayer);
-					System.out.println(movementCounter+" moves made");
+					System.out.println("Game is over. The winner is "+ currentPlayer);//If there is a winner, it is stated that the last user who made the move won and the game ends.
+					System.out.println(movementCounter+" moves made");//number of moves is displayed
 					
 					break;
 				}
-				else if (noMoveLeft()){
+				else if (noMoveLeft()){//If there is no winner, it is checked whether there is any empty cells on the board.
 					System.out.println("No more moves to play, draw!");
 					break;
 				}
 				else{
-					currentPlayer= (currentPlayer=='X')?'O':'X';//changing players
+					currentPlayer= (currentPlayer=='X')?'O':'X';//If there is no winner and there are empty spaces on the board, the next player moves on.
 				}
 			}
 		}
@@ -1122,32 +1147,32 @@ static char currentPlayer= 'X';
 	}
 
 	/**
-      * Validates the user's move input.
-      *
-      * @param str the user input as a String
-      * @return true if the move is valid, false otherwise
-      */
-    	static boolean validMove(String str){
+	  * Validates the user's move input.
+	  *
+	  * @param str the user input as a String
+	  * @return true if the move is valid, false otherwise
+	  */
+		static boolean validMove(String str){//Checks whether the value entered by the user is within the valid range
 		try {
 			int test = Integer.parseInt(str);
 			
 			if(test <= 0 || test > 9){
 				System.out.println("Please enter a value between 1 and 9!");
 				return false;
-	  		}
+			  }
 			
 			return true;
 		}
-		catch(NumberFormatException e){	
+		catch(NumberFormatException e){	//if entered value is not valid throw an exception
 			System.out.println("Please enter a value between 1 and 9!");
 			return false;
 		}
 	}
 
 	/**
-      * Prints the current state of the Tic Tac Toe board.
-      */
-	public static void printBoard(){
+	  * Prints the current state of the Tic Tac Toe board.
+	  */
+	public static void printBoard(){//Prints the current state of the Tic Tac Toe board.
 		for(int i=0;i<rows;i++){
 			for(int j=0;j<cols;j++){
 				if (j==0 || j==1){
@@ -1170,46 +1195,46 @@ static char currentPlayer= 'X';
 	}
  
 	/**
-      * Initializes the game board with numbers 1 to 9.
-     */
-	public static void initializeBoard(){
+	  * Initializes the game board with numbers 1 to 9.
+	 */
+	public static void initializeBoard(){// Initializes the game board with numbers 1 to 9.
 		char num='1';
 		for(int i=0;i<rows;i++){
 			for (int j=0;j<cols;j++){
-		   		board[i][j]= num;
-		   		num++;
-	    		}
+				   board[i][j]= num;
+				   num++;
+				}
 		}
- 	}
+	 }
  
 	/**
-      * Checks if the specified cell is empty.
-      *
-      * @param nextMove the move number (1-9) to check
-      * @return true if the cell is empty, false otherwise
-     */
-	static boolean isempty(int nextmove){
+	  * Checks if the specified cell is empty.
+	  *
+	  * @param nextMove the move number (1-9) to check
+	  * @return true if the cell is empty, false otherwise
+	 */
+	static boolean isempty(int nextmove){//Checks whether the cell coordinate received from the user is empty.
 		/*1 00 2 01 3 02
 		4 10 5 11 6 12
 		7 20 8 21 8 22
 		*/
-		int rows=(nextmove-1)/3;
+		int rows=(nextmove-1)/3;//The coordinate values ​​on the created board are from 1 to 9. I divided it into row and col coordinates and did the operations.
 		int cols=(nextmove-1)%3;
 		
-		if (board[rows][cols]!='X'&&board[rows][cols]!='O'){
-	    		return true;
+		if (board[rows][cols]!='X'&&board[rows][cols]!='O'){//Check if there is 'X' or 'O' in row and col values
+				return true;
 		}
 		else{
-	    		return false;
+				return false;
 		}
- 	}
+	 }
 
 	/**
-      * Checks if there are no moves left on the board.
-      *
-      * @return true if no moves left, false otherwise
-     */
-	static boolean noMoveLeft(){
+	  * Checks if there are no moves left on the board.
+	  *
+	  * @return true if no moves left, false otherwise
+	 */
+	static boolean noMoveLeft(){// Checks if there are no moves left on the board.
 		
 		for (int i=0;i<rows;i++)
 		{
@@ -1222,26 +1247,21 @@ static char currentPlayer= 'X';
 			}
 		}
 		
-		return true;
+		return true;//If all cells are full, there is no move to make.
 	}
 
 	/**
-      * Makes a move on the board for the current player.
-      *
-      * @param nextMove the move number (1-9)
-     */
-    	static void makeMove(int nextMove)
+	  * Makes a move on the board for the current player.
+	  *
+	  * @param nextMove the move number (1-9)
+	 */
+	   static void makeMove(int nextMove)//Move is made to the coordinate received from the user
 	{
-		if(nextMove>0 && nextMove<=9)
-		{
-			int rows=(nextMove-1)/3;
-        		int cols=(nextMove-1)%3;
-			
-			board[rows][cols]=currentPlayer;
-		}
-		else
-	        System.out.println("This move can not be done. Coordinates should be in range 1-9");
- 	}
+	   int rows=(nextMove-1)/3;
+	   int cols=(nextMove-1)%3;  
+	   board[rows][cols]=currentPlayer;
+
+	 }
 
 	/**
       * Checks if the current player has won the game.
