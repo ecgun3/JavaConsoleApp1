@@ -1,10 +1,36 @@
-import java.util.Scanner;
-import java.util.Arrays;
-import java.lang.Math;
+/**
+ * **Main Class**
+ * 
+ * This class serves as the entry point for the program, providing a 
+ * user-friendly interface to various mathematical and game 
+ * functionalities. 
+ * It offers options for:
+ *
+ * - **Array Operations:** Statistical calculations on arrays, such as 
+ * mean, median, and standard deviation.
+ * - **Matrix Operations:** Matrix manipulations like transposition, 
+ * inversion, and multiplication.
+ * - **Text Encryption/Decryption:** Caesar cipher encryption and decryption.
+ * - **Tic-Tac-Toe:** A classic two-player game.
+ *
+ * @author Group1
+ * @version 5
+ * @since 2024-10-31
+ */
+
+import java.util.Scanner; // Used to get math input
+import java.util.Arrays; // Used for array manuplation functions
+import java.lang.Math; // Used for math funcitons
 
 
 public class Main{
 
+	/**
+     * Main method. This is the starting point of the program, displaying the 
+     * welcome screen and initiating the main menu.
+     * 
+     * @param args command-line arguments (not used in this program)
+     */
     public static void main(String[] args){     //Starting Screen
 
 		clearConsole();
@@ -34,14 +60,25 @@ public class Main{
 		menu();		
 	}
 
-    public static void clearConsole(){      //Cleaning Console
+	/**
+ 	* Clears the console screen by printing ANSI escape sequences. 
+ 	* This method is specific to terminals that support ANSI escape codes.
+ 	*/
+    	public static void clearConsole(){      //Cleaning Console
 		System.out.println("Welcome to JavaBeat");
 		
 		System.out.println("\033[H\033[2J");
 		
 	}
 
-    public static void menu(){	    //Main Menu
+	/**
+	 * Displays the main menu to the user, offering options for array 
+	 * statistics, matrix operations, text encryption/decryption, 
+	 * tic-tac-toe, and program termination. It prompts the user 
+	 * for a choice and validates the input. The menu continues to 
+	 * display until the user chooses to exit.
+	*/
+    	public static void menu(){	    //Main Menu
 		Scanner input = new Scanner(System.in);
 		String userInput;
 		
@@ -62,7 +99,15 @@ public class Main{
 
 	}
 
-    public static void decision(String userInput){      //Decision Part
+	/**
+	 * Directs the program flow based on the user's menu choice. 
+	 * Cleans the console and calls the appropriate function 
+	 * according to the user's input.
+	 *
+	 * @param userInput The user's choice, a single character representing 
+	 *                   a menu option (A, B, C, D, or E).
+	 */
+    	public static void decision(String userInput){      //Decision Part
 
 		if(userInput.equals("A")||userInput.equals("a")){
 			clearConsole();
@@ -91,6 +136,15 @@ public class Main{
 		}
 	}
 
+	/**
+	 * Provides a mechanism for users to navigate back to different sections 
+	 * of the program based on a provided menu identifier.
+	 *
+	 * @param n An integer representing the menu to return to:
+	 *               - 0: Main Menu
+	 *               - 1: Matrix Operations Menu
+	 *               - 3: Tic-tac-toe (restart or return to Main Menu)
+     */
 	static void back(int n){ 	//Back to main
 		Scanner ink = new Scanner(System.in);
 		String last = ink.nextLine();
@@ -116,7 +170,23 @@ public class Main{
 	}
 
 ////////////// ARRAY OPERATIONS /////////////////
-    	
+
+/**
+ * Provides functionalities for array operations, including:
+ *  - Taking user input for array size and elements.
+ *  - Validating user input to ensure positive integer values for size 
+ *    and numeric values for elements.
+ *  - Calculating and displaying the following statistics:
+ *      - Median
+ *      - Arithmetic Mean (Average)
+ *      - Geometric Mean (if applicable)
+ *      - Harmonic Mean (if applicable, throws exception for zero elements)
+ *  - Offers the option to return to the main menu.
+ *
+ * @throws IllegalArgumentException if the geometric mean calculation 
+ *         encounters negative product or if the harmonic mean encounters 
+ *         a zero element in the array.
+ */
 	public static void ArrayOperations() {
 
      	Scanner scan = new Scanner(System.in);
@@ -179,6 +249,13 @@ public class Main{
 		back(0);
      }
 
+	/**
+	 * Validates the user input for array size. Ensures the input is a 
+	 * positive integer value less than the maximum allowed integer value.
+	 *
+	 * @param str the input string to check
+	 * @return true if the input is a valid positive integer, false otherwise.
+	 */
      static boolean arraySizeCheck(String str) { 		// check if the size is a positive integer value
 		try {
 
@@ -197,6 +274,13 @@ public class Main{
 		}
 	}
 	
+	/**
+	 * Validates the user input for array elements. Ensures the input is 
+	 * a valid numeric value.
+	 *
+	 * @param str the input string to check
+	 * @return true if the input is a valid double numeric value, false otherwise.
+	 */
 	static boolean arrayElementCheck(String str) { 	//check if the element is a number
 		try {
 			Double.parseDouble(str);
@@ -208,6 +292,11 @@ public class Main{
 		}
 	}
 
+	/**
+	 * Sorts the given array using the bubble sort algorithm.
+	 *
+	 * @param Array the array to be sorted
+	 */
 	static void ArraySort(double [] Array) {	// Bubble sort
 		boolean swap; // To check if there is any change or not
 		int i, j;
@@ -231,6 +320,14 @@ public class Main{
 		}
 	}
 	
+	/**
+	* Calculates and returns the median of the given array. Sorts the array 
+	* first and then retrieves the middle element (or the average of the two 
+	* middle elements for even-sized arrays).
+	*
+	* @param Array the array of elements
+	* @return the median value of the array
+	*/
 	static double Median(double[] Array) {
 	    double median;
 	    
@@ -248,6 +345,12 @@ public class Main{
 	    return median;
 	}
 	
+	/**
+	* Calculates and returns the arithmetic mean (average) of the given array.
+	*
+	* @param Array the array of elements
+	* @return the arithmetic mean (average) value of the array
+	*/
 	static double ArithmeticMean(double[] Array) {
 		double total = 0;
 		
@@ -257,6 +360,14 @@ public class Main{
 		return total / Array.length;	
 	}
 	
+	/**
+	* Calculates and returns the geometric mean of the given array. Throws an 
+	* IllegalArgumentException if the product of the array elements is negative.
+	*
+	* @param Array the array of elements
+	* @return the geometric mean of the array
+	* @throws IllegalArgumentException if the product of the array elements is negative
+	*/
 	static double GeometricMean(double[] Array) { 
 		double product = 1; // product of the array elements
 		
@@ -270,6 +381,14 @@ public class Main{
 		return Math.pow(product, (double)1/Array.length); 
 	}
 	
+    /**
+     * Recursively calculates the harmonic mean of the elements in the given array.
+     * 
+     * @param n the index of the element to be processed in the recursive function
+     * @param Array the array of elements
+     * @return the harmonic mean of the array
+     * @throws IllegalArgumentException if any element of the array is zero
+     */
 	static double HarmonicMean(int n, double[] Array) {
 		// Throw an exception if the array has an element which is 0 
 		if (Array[n] == 0) {
@@ -285,58 +404,84 @@ public class Main{
 
 ////////////// MATRIX OPERATIONS /////////////////
 
-    public static void MatrixMenu(){
-        Scanner input = new Scanner(System.in);
+	/**
+	* Displays a menu for matrix operations, allowing the user to select
+	* from various matrix operations such as transposing, inverting, 
+	* multiplying, or performing element-wise multiplication on matrices.
+	* The menu will continuously prompt the user until they choose to 
+	* return to the main menu by entering 'E' or 'e'.
+	*
+	* <p>This method uses a loop to handle user input and calls 
+	* {@link #MatrixMenuDecision(String)} to execute the selected operation.</p>
+	*/
+    	public static void MatrixMenu(){
+        
+	Scanner input = new Scanner(System.in);
         String userInput; 
 
         do{
             System.out.printf("Welcome to The Matrix Operations...%n%n");
             System.out.printf(" [A] - Transpose Matrix %n [B] - Inverse Matrix %n [C] - Matrix Multiplication %n [D] - Element-wise Multiplication %n [E] - Return to the Main Menu %n%n Please enter the value to select operation: ");	
-            userInput = input.nextLine();
-            MatrixMenuDecision(userInput);
-            // System.out.printf("\n(If you want to back Main Menu, press Y): ");
-            // back(0);
-        }
-        while(!(userInput.equals("E")||userInput.equals("e")));
-            // input.close();
+            
+		  userInput = input.nextLine();
+            
+		  MatrixMenuDecision(userInput);
+
+		} while(!(userInput.equals("E")||userInput.equals("e"))); // the loop iterates until user enter E or E
     }
 
-    public static void MatrixMenuDecision(String userInput){
+    /**
+	 * Executes the operation selected by the user in the matrix menu.
+	 * Depending on the user input, this method can transpose a matrix, 
+	 * calculate its inverse, perform matrix multiplication, or 
+	 * execute element-wise multiplication.
+	 *
+	 * <p>This method takes the user's choice as a parameter and uses 
+	 * conditional statements to determine which matrix operation to 
+	 * execute. If the input is invalid, it prompts the user to make a 
+	 * valid choice.</p>
+	 *
+	 * @param userInput A string representing the user's choice for the matrix operation.
+	 */
+    	public static void MatrixMenuDecision(String userInput){
 
-		if(userInput.equals("A")||userInput.equals("a")){
+		if(userInput.equals("A")||userInput.equals("a")){ // Transpose
 			clearConsole();
 
 			double mat[][] = transpose(matrixCreate(3));
 
 			System.out.printf("%nYour Transposed Matrix: %n");
 			printMatrix(mat);
+
 			System.out.printf("\n(If you want to back Matrix Operations Menu, press Y): ");
 			back(1);
 		}
-		else if(userInput.equals("B")||userInput.equals("b")){
+		else if(userInput.equals("B") || userInput.equals("b")){ // Inverse
 			clearConsole();
 			Inverse();
-            System.out.printf("\n(If you want to back Matrix Operations Menu, press Y): ");
-            back(1);
+            	
+			System.out.printf("\n(If you want to back Matrix Operations Menu, press Y): ");
+            	back(1);
 		}
-		else if(userInput.equals("C")||userInput.equals("c")){
-			 clearConsole();
-			 MatrixMultiplication();
-			 System.out.printf("\n(If you want to back Matrix Operations Menu, press Y): ");
-			 back(1);
-
-		}
-		else if(userInput.equals("D")||userInput.equals("d")){
+		else if(userInput.equals("C") || userInput.equals("c")){ // Matrix Multiplication
 			clearConsole();
-			elementwiseMatrixMultiplication();
+			MatrixMultiplication();
+			
 			System.out.printf("\n(If you want to back Matrix Operations Menu, press Y): ");
 			back(1);
 		}
-		else if(userInput.equals("E")||userInput.equals("e")){
+		else if(userInput.equals("D") || userInput.equals("d")){ // element wise multiplication
+			clearConsole(); 
+			elementwiseMatrixMultiplication();
+			
+			System.out.printf("\n(If you want to back Matrix Operations Menu, press Y): ");
+			back(1);
+		}
+		else if(userInput.equals("E") || userInput.equals("e")){ // Main menu return
 			clearConsole();
 			menu();
-		}
-		else{
+		} 
+		else{ // If the user enters an input other than these options
 			clearConsole();
 			System.out.println("Choice is invalid. Please make a valid choice!\n");
 		}
@@ -346,6 +491,7 @@ public class Main{
 
 
 		Scanner input = new Scanner(System.in);
+		
 		String matrixInp;
 		String row;
 		String col;
@@ -424,11 +570,18 @@ public class Main{
 		return Matrix;
 	}
 
-    static void printMatrix(int[][] mat){       //Printing Matrix
+	/**
+	 * Prints a matrix of integers to the console in a formatted manner.
+	 * Each element of the matrix is printed with a space in between,
+	 * and each row is printed on a new line.
+	 *
+	 * @param mat A 2D array of integers representing the matrix to be printed.
+	 */
+    	static void printMatrix(int[][] mat){	//Printing Integer Matrix
 
-		for(int i=0; i<mat.length; i++)
+		for(int i = 0; i < mat.length; i++)
 		{
-			for(int j=0; j<mat[0].length;j++)
+			for(int j = 0; j < mat[0].length;j++)
 			{
 				System.out.printf("%d ", mat[i][j]);
 			}
@@ -436,11 +589,19 @@ public class Main{
 		}
 	}
 
-	static void printMatrix(double[][] mat){        //Printing Matrix
+	/**
+	 * Prints a matrix of doubles to the console in a formatted manner.
+	 * Each element of the matrix is printed with a space in between,
+	 * and each row is printed on a new line. The elements are formatted 
+	 * to two decimal places.
+	 *
+	 * @param mat A 2D array of doubles representing the matrix to be printed.
+	 */
+	static void printMatrix(double[][] mat){	//Printing Double Matrix (overload)
 
-		for(int i=0; i<mat.length; i++)
+		for(int i = 0; i < mat.length; i++)
 		{
-			for(int j=0; j<mat[0].length;j++)
+			for(int j = 0; j < mat[0].length; j++)
 			{
 				System.out.printf("%,2f ", mat[i][j]);
 			}
@@ -613,6 +774,20 @@ public class Main{
 
 ////////////// ENCRYPTION - DECRYPTION //////////////////
 
+/**
+ * Displays a menu for Caesar cipher encryption and decryption operations,
+ * allowing the user to choose either operation, specify a shift value, and
+ * enter a message to encrypt or decrypt.
+ *
+ * <p>This method continuously displays the menu until the user chooses to
+ * return to the main menu. It handles input validation, checking for valid
+ * integer inputs for both menu choices and shift values. The method also calls
+ * {@code encryption} to perform the actual encryption and decryption processes
+ * based on the user's shift value.</p>
+ *
+ * @see #encryption(int, String)
+ */
+
 public static void CaesarChip(){
 
 	Scanner input = new Scanner(System.in);
@@ -747,6 +922,18 @@ public static void CaesarChip(){
 		menu();
 		input.close();
 }
+
+/**
+ * Encrypts a given text using the Caesar cipher algorithm with a specified
+ * shift value. Each letter in the input text is shifted by the given key,
+ * wrapping around within the alphabet. Non-letter characters remain unchanged.
+ *
+ * @param key The shift value for the cipher, ranging from -26 to 26. Positive
+ *            values shift characters to the right, while negative values shift
+ *            characters to the left.
+ * @param text The input string to be encrypted. This can include any characters.
+ * @return The encrypted text after applying the Caesar cipher.
+ */
 
     public static String encryption(int key,String text){
         StringBuffer result = new StringBuffer();
