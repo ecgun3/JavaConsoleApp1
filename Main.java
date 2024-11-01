@@ -1055,7 +1055,7 @@ public class Main{
         	return result.toString();
     	}
 ///////// TIC TAC TOE /////////////
-
+ 
 static Scanner input= new Scanner (System.in);
 static int rows=3;
 static int cols=3;
@@ -1072,45 +1072,44 @@ static char currentPlayer= 'X';
 	 * and prompts the user for further action (to restart the game or return to the menu).
 	 */
 	public static void tictac(){
-		int movementCounter=0;//to check how many moves are made
-		clearConsole();
-		initializeBoard();
-		while(true){//If there are cells that not empty user should make a move
+		int movementCounter=0;//Movement counter keeps track of the moves in the game.
+		clearConsole();//The clearconsole function clears the terminal, making it look clean and tidy.
+		initializeBoard();//Initializes the board to be used in the game with the initializeboard function.
+		while(true){
 			printBoard();
-			System.out.println(currentPlayer+"'s turn. Where do you want to put character?");//coordinates for the movement
+			System.out.println(currentPlayer+"'s turn. Where do you want to put character?");
 
-			//movement should be in a function
-			String move;
+			String move;//The 'move' string is defined to hold the move the user wants to make.
 			do{
 				move = input.nextLine();
-			} while(!validMove(move));
+			} while(!validMove(move));//The user's location input is taken until a valid location input (1-9) is received from the user. The current value received is kept in the 'move' variable
 		
 			int nextMove = Integer.parseInt(move);
 
-			if(!isempty(nextMove)){
-				clearConsole();//clear console command
+			if(!isempty(nextMove)){//If the cell whose location is entered is not empty, you will be prompted for entry again.
+				clearConsole();
 				System.out.println("This move can not be done. Choose an empty cell to move");
 			}
 			else {
-				clearConsole();;//clear console command
+				clearConsole();
 				makeMove(nextMove);//if the cell is empty the move can be done
 				movementCounter++;
 				
-				if(winner()){
-					clearConsole();;//clear console command
-					printBoard();
+				if(winner()){// winner function is called to check if there is a winner.
+					clearConsole();
+					printBoard();//The final state of the board where the user enters his move is displayed on the terminal.
 					
-					System.out.println("Game is over. The winner is "+ currentPlayer);
-					System.out.println(movementCounter+" moves made");
+					System.out.println("Game is over. The winner is "+ currentPlayer);//If there is a winner, it is stated that the last user who made the move won and the game ends.
+					System.out.println(movementCounter+" moves made");//number of moves is displayed
 					
 					break;
 				}
-				else if (noMoveLeft()){
+				else if (noMoveLeft()){//If there is no winner, it is checked whether there is any empty cells on the board.
 					System.out.println("No more moves to play, draw!");
 					break;
 				}
 				else{
-					currentPlayer= (currentPlayer=='X')?'O':'X';//changing players
+					currentPlayer= (currentPlayer=='X')?'O':'X';//If there is no winner and there are empty spaces on the board, the next player moves on.
 				}
 			}
 		}
@@ -1122,19 +1121,19 @@ static char currentPlayer= 'X';
 	}
 
 	/**
-      * Validates the user's move input.
-      *
-      * @param str the user input as a String
-      * @return true if the move is valid, false otherwise
-      */
-    	static boolean validMove(String str){
+	  * Validates the user's move input.
+	  *
+	  * @param str the user input as a String
+	  * @return true if the move is valid, false otherwise
+	  */
+		static boolean validMove(String str){//Checks whether the value entered by the user is within the valid range
 		try {
 			int test = Integer.parseInt(str);
 			
 			if(test <= 0 || test > 9){
 				System.out.println("Please enter a value between 1 and 9!");
 				return false;
-	  		}
+			  }
 			
 			return true;
 		}
@@ -1145,9 +1144,9 @@ static char currentPlayer= 'X';
 	}
 
 	/**
-      * Prints the current state of the Tic Tac Toe board.
-      */
-	public static void printBoard(){
+	  * Prints the current state of the Tic Tac Toe board.
+	  */
+	public static void printBoard(){//Prints the current state of the Tic Tac Toe board.
 		for(int i=0;i<rows;i++){
 			for(int j=0;j<cols;j++){
 				if (j==0 || j==1){
@@ -1170,46 +1169,46 @@ static char currentPlayer= 'X';
 	}
  
 	/**
-      * Initializes the game board with numbers 1 to 9.
-     */
-	public static void initializeBoard(){
+	  * Initializes the game board with numbers 1 to 9.
+	 */
+	public static void initializeBoard(){// Initializes the game board with numbers 1 to 9.
 		char num='1';
 		for(int i=0;i<rows;i++){
 			for (int j=0;j<cols;j++){
-		   		board[i][j]= num;
-		   		num++;
-	    		}
+				   board[i][j]= num;
+				   num++;
+				}
 		}
- 	}
+	 }
  
 	/**
-      * Checks if the specified cell is empty.
-      *
-      * @param nextMove the move number (1-9) to check
-      * @return true if the cell is empty, false otherwise
-     */
-	static boolean isempty(int nextmove){
+	  * Checks if the specified cell is empty.
+	  *
+	  * @param nextMove the move number (1-9) to check
+	  * @return true if the cell is empty, false otherwise
+	 */
+	static boolean isempty(int nextmove){//Checks whether the cell coordinate received from the user is empty.
 		/*1 00 2 01 3 02
 		4 10 5 11 6 12
 		7 20 8 21 8 22
 		*/
-		int rows=(nextmove-1)/3;
+		int rows=(nextmove-1)/3;//The coordinate values ​​on the created board are from 1 to 9. I divided it into row and col coordinates and did the operations.
 		int cols=(nextmove-1)%3;
 		
-		if (board[rows][cols]!='X'&&board[rows][cols]!='O'){
-	    		return true;
+		if (board[rows][cols]!='X'&&board[rows][cols]!='O'){//Check if there is 'X' or 'O' in row and col values
+				return true;
 		}
 		else{
-	    		return false;
+				return false;
 		}
- 	}
+	 }
 
 	/**
-      * Checks if there are no moves left on the board.
-      *
-      * @return true if no moves left, false otherwise
-     */
-	static boolean noMoveLeft(){
+	  * Checks if there are no moves left on the board.
+	  *
+	  * @return true if no moves left, false otherwise
+	 */
+	static boolean noMoveLeft(){// Checks if there are no moves left on the board.
 		
 		for (int i=0;i<rows;i++)
 		{
@@ -1222,51 +1221,46 @@ static char currentPlayer= 'X';
 			}
 		}
 		
-		return true;
+		return true;//If all cells are full, there is no move to make.
 	}
 
 	/**
-      * Makes a move on the board for the current player.
-      *
-      * @param nextMove the move number (1-9)
-     */
-    	static void makeMove(int nextMove)
+	  * Makes a move on the board for the current player.
+	  *
+	  * @param nextMove the move number (1-9)
+	 */
+	   static void makeMove(int nextMove)//Move is made to the coordinate received from the user
 	{
-		if(nextMove>0 && nextMove<=9)
-		{
-			int rows=(nextMove-1)/3;
-        		int cols=(nextMove-1)%3;
-			
-			board[rows][cols]=currentPlayer;
-		}
-		else
-	        System.out.println("This move can not be done. Coordinates should be in range 1-9");
- 	}
+	   int rows=(nextMove-1)/3;
+	   int cols=(nextMove-1)%3;  
+	   board[rows][cols]=currentPlayer;
+
+	 }
 
 	/**
-      * Checks if the current player has won the game.
-      *
-      * @return true if the current player is the winner, false otherwise
-      */
-    	static boolean winner()
+	  * Checks if the current player has won the game.
+	  *
+	  * @return true if the current player is the winner, false otherwise
+	  */
+		static boolean winner()//Checks if the current player has won the game.
 	{
-        	for(int i=0;i<3;i++)
+			for(int i=0;i<3;i++)
 		{
-            	if(board[0][i]==board[1][i]&& board[1][i]==board[2][i]&&board[2][i]==currentPlayer){ //up to down check
-                	return true;
-            	}
-        	}
-        	for(int i=0;i<3;i++){
-            	if(board[i][0]==board[i][1]&& board[i][1]==board[i][2]&&board[i][2]==currentPlayer){ //down to up check
-                	return true;
-            	}
-        	}
-        	if(board[0][0]==board[1][1]&& board[1][1]==board[2][2]&&board[2][2]==currentPlayer){ //diagonal check
-            	return true;
-        	}
-        	if(board[0][2]==board[1][1]&& board[1][1]==board[2][0]&&board[2][0]==currentPlayer){ //diagonal check
-            	return true;
-       	}
-        	return false;
-    	}
+				if(board[0][i]==board[1][i]&& board[1][i]==board[2][i]&&board[2][i]==currentPlayer){ //up to down check
+					return true;
+				}
+			}
+			for(int i=0;i<3;i++){
+				if(board[i][0]==board[i][1]&& board[i][1]==board[i][2]&&board[i][2]==currentPlayer){ //down to up check
+					return true;
+				}
+			}
+			if(board[0][0]==board[1][1]&& board[1][1]==board[2][2]&&board[2][2]==currentPlayer){ //diagonal check
+				return true;
+			}
+			if(board[0][2]==board[1][1]&& board[1][1]==board[2][0]&&board[2][0]==currentPlayer){ //diagonal check
+				return true;
+		   }
+			return false;
+		}
 }
